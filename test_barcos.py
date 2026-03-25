@@ -1,7 +1,7 @@
 import pytest
 from barcos import *
 from tablero import crear_tablero
-from Constantes import BARCO
+import Constantes as c
 @pytest.fixture
 def tablero():
     return crear_tablero(10, 10)
@@ -35,21 +35,21 @@ def test_saber_posicion_valida_False(test_num,tablero,fila,columna,longitud,orie
 #es siguiente es de hecho el más importante porque se puede romper todo
 def test_saber_posicion_valida_solapamiento(tablero):
     #colocamos barcos de prueba
-    tablero[0][0] = BARCO
-    tablero[0][1] = BARCO
-    tablero[0][2] = BARCO
+    tablero[0][0] = c.BARCO
+    tablero[0][1] = c.BARCO
+    tablero[0][2] = c.BARCO
     # en el test se intenta colocar otro que pasa por encima
     sol = saber_posicion_valida(tablero,0,2,4,"h")
     assert sol == False
     
 def test_colocar_barcos_horizontal(tablero): #test colocando un barco en horizontal
     colocar_barco(tablero,0,0,2,"h")
-    assert tablero[0][0] == BARCO
-    assert tablero[0][1] == BARCO
+    assert tablero[0][0] == c.BARCO
+    assert tablero[0][1] == c.BARCO
 def test_colocar_barcos_vertical(tablero): #test colocando un barco en vertical
     colocar_barco(tablero,0,0,2,"v")
-    assert tablero[0][0] == BARCO
-    assert tablero[1][0] == BARCO
+    assert tablero[0][0] == c.BARCO
+    assert tablero[1][0] == c.BARCO
 def test_colocar_barco_posicion_invalida(): #test colocar barco en una posicion no válida
     tablero = crear_tablero(10, 10)
     with pytest.raises(ValueError):
@@ -60,4 +60,18 @@ def test_colocar_barco_solapamiento(): #test donde se coloca un barco con la fun
     colocar_barco(tablero, 0, 0, 3, "h") #y luego se intenta colocar otro por encima con la misma funcion
     with pytest.raises(ValueError):
         colocar_barco(tablero, 0, 2, 3, "v")  # solapa con el anterior
-    
+
+def test_colocar_flota_aleatoria():
+    tablero = crear_tablero(10,10)
+    total_esperado = 0
+    total_real = 0                                           
+    for barco in c.FLOTA:
+        total_esperado += barco["longitud"] * barco["cantidad"]
+    colocar_flota_aleatoria(tablero, c.FLOTA)
+    fila = 0
+    columna = 0
+    for fila in tablero:
+        for casilla in fila:
+            if casilla == BARCO:
+                total_real += 1
+    assert total_real == total_esperado
