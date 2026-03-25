@@ -33,8 +33,21 @@ def colocar_barco(tablero, fila, columna, longitud, orientacion):
             columna_actual = columna
         tablero[fila_actual][columna_actual] = BARCO
 import random
+
 def colocar_flota_aleatoria(tablero, flota):
+    n_filas = len(tablero) -1
+    n_columnas = len(tablero[0]) -1
     for barco in flota:
-        fila = 
-    
-    
+        for i in range(barco["cantidad"]): #en clase hemos dado hacer esto en una linea luego lo intento
+            posicion_valida = False
+            while not posicion_valida:
+                fila = random.randint(0,n_filas)
+                columna = random.randint(0,n_columnas)
+                orientacion = random.choice(["h","v"]) #esto pilla lista no varios valores cuidado
+                longitud = barco["longitud"]
+                try:
+                    colocar_barco(tablero,fila,columna,longitud,orientacion) # pass hace que pase pero no se la diferencia con continue
+                    posicion_valida = True
+                except ValueError:
+                    pass  #vale pass es para rellenar no hace NADA literalmente continue salta al siguiente ciclo
+
