@@ -32,9 +32,20 @@ def colocar_barco(tablero, fila, columna, longitud, orientacion):
             fila_actual = fila + i
             columna_actual = columna
         tablero[fila_actual][columna_actual] = BARCO
+
+
 import random
 def colocar_flota_aleatoria(tablero, flota):
     for barco in flota:
-        fila = 
-    
-    
+        for _ in range(barco["cantidad"]):  # repite N veces
+                                            # aquí el while de buscar posición válida y colocar
+            colocado = False
+            while not colocado:
+                fila = random.randint(0, len(tablero) - 1)
+                columna = random.randint(0, len(tablero[0]) - 1)
+                orientacion = random.choice(["h", "v"])
+                if saber_posicion_valida(tablero, fila, columna, barco["longitud"], orientacion):
+                    colocar_barco(tablero, fila, columna, barco["longitud"], orientacion)
+                    colocado = True
+
+#mocos

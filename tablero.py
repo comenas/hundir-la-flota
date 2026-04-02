@@ -31,7 +31,7 @@ def mostrar_tablero(tablero, ocultar_barcos = False):
     filas = len(tablero)#sacar las filas
     numeros_coords = " " #variable vacía para poner ahora en el bucle
     
-    for i in range(1, columnas + 1): # este bucle controla solo la cabezera (numeros)
+    for i in range(1, columnas + 1): # este bucle controla solo la cabecera (numeros)
         numeros_coords = numeros_coords + str(i).rjust(2) + "   " 
     print("  "+numeros_coords,"\n")
     
