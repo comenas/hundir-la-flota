@@ -21,8 +21,7 @@ def saber_posicion_valida(tablero,fila,columna,longitud,orientacion):
                 return False
     return True
 
-def colocar_barco(tablero, fila, columna, longitud, orientacion, barco):
-    barco["coordenadas"] = []
+def colocar_barco(tablero, fila, columna, longitud, orientacion):
     if saber_posicion_valida(tablero, fila, columna, longitud, orientacion) == False: #miramos si es válido
         raise ValueError("Posición del barco no válida")
     for i in range(longitud): #esto es el mismo bucle que la funcion de arriba, me gustaría hacerlo sin repetirme
@@ -39,3 +38,16 @@ def colocar_flota_aleatoria(tablero, flota):
     n_filas = len(tablero) -1
     n_columnas = len(tablero[0]) -1
     for barco in flota:
+        for i in range(barco["cantidad"]): #en clase hemos dado hacer esto en una linea luego lo intento
+            posicion_valida = False
+            while not posicion_valida:
+                fila = random.randint(0,n_filas)
+                columna = random.randint(0,n_columnas)
+                orientacion = random.choice(["h","v"]) #esto pilla lista no varios valores cuidado
+                longitud = barco["longitud"]
+                try:
+                    colocar_barco(tablero,fila,columna,longitud,orientacion) # pass hace que pase pero no se la diferencia con continue
+                    posicion_valida = True
+                except ValueError:
+                    pass  #vale pass es para rellenar no hace NADA literalmente continue salta al siguiente ciclo
+
