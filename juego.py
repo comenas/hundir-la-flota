@@ -15,3 +15,5 @@ def jugar_partida(tablero1,tablero2, flota1, flota2):
     jugador1 = True
     while not terminado:
         print("aquí me quedo")
+
+print("ruben gitano")
