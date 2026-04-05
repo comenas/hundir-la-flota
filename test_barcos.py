@@ -43,23 +43,23 @@ def test_saber_posicion_valida_solapamiento(tablero):
     assert sol == False
     
 def test_colocar_barcos_horizontal(tablero): #test colocando un barco en horizontal
-    colocar_barco(tablero,0,0,2,"h")
+    colocar_barco(tablero,0,0,2,"h",c.FLOTA[0])
     assert tablero[0][0] == c.BARCO
     assert tablero[0][1] == c.BARCO
 def test_colocar_barcos_vertical(tablero): #test colocando un barco en vertical
-    colocar_barco(tablero,0,0,2,"v")
+    colocar_barco(tablero,0,0,2,"v",c.FLOTA[0])
     assert tablero[0][0] == c.BARCO
     assert tablero[1][0] == c.BARCO
 def test_colocar_barco_posicion_invalida(): #test colocar barco en una posicion no válida
     tablero = crear_tablero(10, 10)
     with pytest.raises(ValueError):
-        colocar_barco(tablero, 0, 8, 5, "h")  # se sale del tablero
+        colocar_barco(tablero, 0, 8, 5, "h",c.FLOTA[0])  # se sale del tablero
 
 def test_colocar_barco_solapamiento(): #test donde se coloca un barco con la funcion
     tablero = crear_tablero(10, 10)
-    colocar_barco(tablero, 0, 0, 3, "h") #y luego se intenta colocar otro por encima con la misma funcion
+    colocar_barco(tablero, 0, 0, 3, "h",c.FLOTA[0]) #y luego se intenta colocar otro por encima con la misma funcion
     with pytest.raises(ValueError):
-        colocar_barco(tablero, 0, 2, 3, "v")  # solapa con el anterior
+        colocar_barco(tablero, 0, 2, 3, "v",c.FLOTA[0])  # solapa con el anterior
 
 def test_colocar_flota_aleatoria():
     tablero = crear_tablero(10,10)
