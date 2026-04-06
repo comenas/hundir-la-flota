@@ -40,11 +40,13 @@ def mostrar_tablero(tablero, ocultar_barcos = False):
         celdas = tablero[i]
         print(letra + "   " + "    ".join(celdas),"\n")
         
-def saber_coordenada_valida(tablero, fila, columna): 
-    if 0 <= fila < len(tablero) and 0 <= columna < len(tablero[0]):
-        return True
-    else:
-        return False
+
+def saber_coordenada_valida(tablero, fila, columna):
+        if 0 <= fila < len(tablero) and 0 <= columna < len(tablero[0]):
+            return True
+        else:
+            return False
+    
  #devuelve True si está dentro del tablero False si está fuera    
         
 if __name__ == "__main__":
