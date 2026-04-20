@@ -146,7 +146,7 @@ def test_colocar_flota_aleatoria_coordenadas_asignadas():
     import copy
     flota = copy.deepcopy(c.FLOTA)
     tablero = crear_tablero(10, 10)
-    colocar_flota_aleatoria(tablero, flota)
-    for barco in flota:
+    flota_activa = colocar_flota_aleatoria(tablero, flota)
+    for barco in flota_activa:
         assert "coordenadas" in barco                    # tiene la clave coordenadas
         assert len(barco["coordenadas"]) == barco["longitud"]  # y tiene las que le tocan

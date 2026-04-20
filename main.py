@@ -95,7 +95,8 @@ def personalizar_flota():
                 longitud = int(input(f"  Longitud ({LONGITUD_MIN_BARCO}-{long_max}): "))
                 if LONGITUD_MIN_BARCO <= longitud <= long_max:
                     correcto_longitud = True
-                print(f"  Debe estar entre {LONGITUD_MIN_BARCO} y {long_max}.")
+                else:
+                    print(f"  Debe estar entre {LONGITUD_MIN_BARCO} y {long_max}.")
             except ValueError:
                 print("  Introduce un número.")
 
