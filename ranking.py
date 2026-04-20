@@ -19,4 +19,8 @@ def guardar_partida(ganador, perdedor, turnos, modo):
 
 def mostrar_ranking():
     ranking = cargar_ranking()
-    print(ranking)
+    if not ranking:
+        print("No hay partidas guardadas")
+        return
+    for i, partida in enumerate(ranking, 1):
+        print(f"{i}. Ganador: {partida["ganador"]} | Turnos: {partida["turnos"]} | Modo:{partida["modo"]}")
