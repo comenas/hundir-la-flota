@@ -6,6 +6,7 @@ from interfaz import pedir_coordenadas, pedir_orientacion, mostrar_resultado
 from cpu import cpu_disparo
 from juego import comprobar_fin, turno, barcos_a_flote
 from ranking import guardar_partida, mostrar_ranking
+import time
 
 
 # ─── MENÚ PRINCIPAL ───────────────────────────────────────────────────────────
@@ -276,6 +277,7 @@ def juego_vs_jugador():
 
     print("\n--- JUGADOR 1: coloca tu flota ---")
     flota_j1 = elegir_colocacion(tablero_j1, copy.deepcopy(plantillas))
+    time.sleep(0.5)
     print("\n" * 50 + "Pasa el turno al Jugador 2...")
 
     print("\n--- JUGADOR 2: coloca tu flota ---")
@@ -299,7 +301,8 @@ def juego_vs_jugador():
             print(f"\n¡JUGADOR {j} GANA! Ha hundido toda la flota rival.")
             guardar_partida(f"Jugador {j}", f"Jugador {3 - j}", turnos, "Jugador vs Jugador")
             break
-
+        
+        time.sleep(0.5) #esto es para que te de tiempo a mirar que ha hecho tu disparo
         print("\n" * 50 + f"Pasa el turno al Jugador {3 - j}...")
         turno_actual = 2 if turno_actual == 1 else 1
 
@@ -321,6 +324,7 @@ def juego_salvas(modo="PvCPU"):
     flota_j1 = elegir_colocacion(tablero_j1, copy.deepcopy(plantillas))
 
     if modo == "PvP":
+        time.sleep(0.5)
         print("\n" * 50 + "Pasa el turno al Jugador 2...")
         print("\n--- JUGADOR 2: coloca tu flota ---")
         flota_j2 = elegir_colocacion(tablero_j2, copy.deepcopy(plantillas))
@@ -352,6 +356,7 @@ def juego_salvas(modo="PvCPU"):
 
             if modo == "PvP":
                 print(f"\n--- TURNO {turnos}: JUGADOR 2 — {disparos} disparo(s) ---")
+                time.sleep(0.5)
                 print("\n" * 50 + "Pasa el turno al Jugador 2...")
                 mostrar_estado(tablero_j2, tablero_j1)
                 for i in range(disparos):
