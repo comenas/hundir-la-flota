@@ -401,8 +401,8 @@ def main():
         elif opcion == 5:
             print("\n¡Hasta la próxima!")
             salir = True
-
-        entrada = input("\n¿Jugar otra partida? (s/n): ").strip().lower()
+        if not salir:
+            entrada = input("\n¿Jugar otra partida? (s/n): ").strip().lower()
         if entrada not in ["s", "si", "sí", "y", "yes"]:
             print("\n¡Hasta la próxima!")
             salir = True

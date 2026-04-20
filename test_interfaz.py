@@ -46,11 +46,10 @@ def test_pedir_coordenadas_fuera_del_tablero_reintenta(monkeypatch):
     assert columna == 0
 
 
-# comprobamos el comportamiento con minúsculas: "a1" en minúscula da índice fuera de rango
-# por eso la función tiene que rechazarla y aceptar "A1" con mayúscula
-# este test documenta que las minúsculas no son válidas directamente
+# comprobamos el comportamiento con minúsculas: "a1" 
+# este test documenta que las minúsculas son válidas directamente
 def test_pedir_coordenadas_minusculas(monkeypatch):
-    entradas = iter(["a1", "A1"])  # a1 en minúscula falla → A1 en mayúscula pasa
+    entradas = iter(["patata,a1"])  # deberian pasar
     monkeypatch.setattr("builtins.input", lambda _: next(entradas))
     tablero = crear_tablero(10, 10)
     fila, columna = pedir_coordenadas(tablero)
