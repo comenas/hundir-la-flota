@@ -7,7 +7,8 @@ def pedir_coordenadas(tablero): #pide coordenadas al jugador
             coordenadas = input("introduce la corrdenada de tu disparo ej:(A7)") #pues un input
             letra = coordenadas[0] # separas la letra
             numero = int(coordenadas[1:]) #del número
-            fila = ord(letra.upper) - ord("A") #esto es porque el tablero es del 0 - 9 no del 1 - 10 #y por si pones minúsculas
+            letra_comprobada = letra.upper()
+            fila = ord(letra_comprobada) - ord("A") #esto es porque el tablero es del 0 - 9 no del 1 - 10 #y por si pones minúsculas
             columna = numero - 1 #lo mismo del 0 - 9
             if not saber_coordenada_valida(tablero,fila,columna): print("coordenada no válida intenta de nuevo") #si falla la coordenada
             else:

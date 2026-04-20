@@ -1,6 +1,6 @@
 from Constantes import *
 
-def comprobar_medidas(filas, columnas):
+def comprobar_medidas(filas, columnas): #comprueba que las medidas del tablero son válidas
     if filas > TAMAÑO_MAX_FILAS:
         raise ValueError("El máximo de filas es 15")
     if filas < TAMAÑO_MIN_FILAS:
@@ -10,11 +10,11 @@ def comprobar_medidas(filas, columnas):
     if columnas < TAMAÑO_MIN_COLUMNAS:
         raise ValueError("El mínimo de columnas es 5")
 
-def crear_tablero(filas, columnas):
+def crear_tablero(filas, columnas): #crear el tablero de aguas
     comprobar_medidas(filas, columnas)
     return [[AGUA] * columnas for _ in range(filas)]
 
-def mostrar_tablero(tablero, ocultar_barcos=False):
+def mostrar_tablero(tablero, ocultar_barcos=False): #muestra el tablero cuando se necesita
     columnas = len(tablero[0])
     filas = len(tablero)
     numeros_coords = " "
@@ -26,5 +26,5 @@ def mostrar_tablero(tablero, ocultar_barcos=False):
         celdas = [AGUA if (c == BARCO and ocultar_barcos) else c for c in tablero[i]]
         print(letra + "   " + "    ".join(celdas), "\n")
 
-def saber_coordenada_valida(tablero, fila, columna):
+def saber_coordenada_valida(tablero, fila, columna): #comprueba que una coordenada esté dentro del tablero
     return 0 <= fila < len(tablero) and 0 <= columna < len(tablero[0])
