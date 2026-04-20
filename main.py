@@ -12,7 +12,8 @@ import time
 # ─── MENÚ PRINCIPAL ───────────────────────────────────────────────────────────
 
 def elegir_modo_juego():
-    """Muestra el menú principal y devuelve la opción elegida (1-5)."""
+    #Muestra el menú principal y devuelve la opción elegida (1-5).
+    #interfaz pocha de consola normal ojalá poder hacer interfaz bonita con UI
     print("\n╔══════════════════════════════╗")
     print("║      HUNDIR LA FLOTA         ║")
     print("╠══════════════════════════════╣")
@@ -22,11 +23,13 @@ def elegir_modo_juego():
     print("║  4. Ver ranking              ║")
     print("║  5. Salir                    ║")
     print("╚══════════════════════════════╝")
-    while True:
+    correcto = False
+    while not correcto: #eeeeeeeeee dejadme poner algún while true que no hay nada de malo
         try:
             opcion = int(input("Selecciona una opción (1-5): "))
-            if opcion in [1, 2, 3, 4, 5]:
+            if opcion in [1, 2, 3, 4, 5]: #comprobación del input sin más
                 return opcion
+                #no hace falta ni poner correcto = True porque la funcion ya returnea
             print("Opción no válida. Elige entre 1 y 5.")
         except ValueError:
             print("Por favor, introduce un número.")
@@ -35,118 +38,106 @@ def elegir_modo_juego():
 # ─── CONFIGURACIÓN DEL TABLERO ────────────────────────────────────────────────
 
 def configurar_tablero():
-    """Pide las dimensiones del tablero y lo crea.
-    
-    Returns:
-        list: Tablero vacío de las dimensiones indicadas.
-    """
-    print(f"\nTablero ({TAMAÑO_MIN_FILAS}-{TAMAÑO_MAX_FILAS} filas, "
+    #Pide las dimensiones del tablero y lo crea.
+    #pim pam pum
+    print(f"\nTablero ({TAMAÑO_MIN_FILAS}-{TAMAÑO_MAX_FILAS} filas, " #te dice entre que valores puedes hacer de grande el tablero
           f"{TAMAÑO_MIN_COLUMNAS}-{TAMAÑO_MAX_COLUMNAS} columnas).")
     print("Pulsa Enter para usar el tamaño por defecto (10x10).")
 
     def pedir_dimension(nombre, minimo, maximo, defecto):
-        while True:
+        dimensionado = False
+        while not dimensionado: #pues pide un valor, y si esta vacío es por defecto, y si está fuera del rango es error
             entrada = input(f"  {nombre} [{defecto}]: ").strip()
             if entrada == "":
                 return defecto
             try:
-                valor = int(entrada)
-                if minimo <= valor <= maximo:
+                valor = int(entrada) #comprueba que es un entero int
+                if minimo <= valor <= maximo: #comprueba que está dentro de los valores
                     return valor
                 print(f"  Debe estar entre {minimo} y {maximo}.")
             except ValueError:
                 print("  Introduce un número válido.")
 
-    filas = pedir_dimension("Filas", TAMAÑO_MIN_FILAS, TAMAÑO_MAX_FILAS, TAMAÑO_DEFAULT_FILAS)
-    columnas = pedir_dimension("Columnas", TAMAÑO_MIN_COLUMNAS, TAMAÑO_MAX_COLUMNAS, TAMAÑO_DEFAULT_COLUMNAS)
-    return crear_tablero(filas, columnas)
+    filas = pedir_dimension("Filas", TAMAÑO_MIN_FILAS, TAMAÑO_MAX_FILAS, TAMAÑO_DEFAULT_FILAS) #pide dimension de filas
+    columnas = pedir_dimension("Columnas", TAMAÑO_MIN_COLUMNAS, TAMAÑO_MAX_COLUMNAS, TAMAÑO_DEFAULT_COLUMNAS) #pide dimensión de columnas
+    return crear_tablero(filas, columnas) #estos valores están importados de constantes.py 
 
 
 # ─── PERSONALIZACIÓN DE FLOTA ─────────────────────────────────────────────────
 
-CELDAS_FLOTA_ESTANDAR = sum(b["longitud"] * b["cantidad"] for b in FLOTA)
-LONGITUD_MIN_BARCO = 2
-LONGITUD_MAX_BARCO = 5
-
-
-def personalizar_flota():
-    """Permite al jugador modificar la composición de su flota.
-    
-    El total de celdas debe ser igual al de la flota estándar.
-    Cada barco debe tener longitud entre 2 y 5.
-
-    Returns:
-        list: Lista de plantillas de barco personalizadas.
-    """
-    print(f"\nFlota estándar ({CELDAS_FLOTA_ESTANDAR} celdas en total):")
+def personalizar_flota(): #personalizar la flota, función compleja compleja
+    #Permite al jugador modificar la composición de su flota.
+    #El total de celdas debe ser igual al de la flota estándar.
+    #Cada barco debe tener longitud entre 2 y 5.
+    print(f"\nFlota estándar ({CELDAS_FLOTA_ESTANDAR} celdas en total):")  
     for b in FLOTA:
-        print(f"  {b['nombre']}: longitud {b['longitud']} × {b['cantidad']} = "
+        print(f"  {b['nombre']}: longitud {b['longitud']} × {b['cantidad']} = " 
               f"{b['longitud'] * b['cantidad']} celdas")
 
     print(f"\nPuedes crear tu propia flota. Reglas:")
-    print(f"  - Total de celdas: exactamente {CELDAS_FLOTA_ESTANDAR}")
-    print(f"  - Longitud de cada barco: entre {LONGITUD_MIN_BARCO} y {LONGITUD_MAX_BARCO}")
-    print(f"  - Mínimo 1 barco")
+    print(f"  - Total de celdas: exactamente {CELDAS_FLOTA_ESTANDAR}") #te dice las normas no puede ser ni más ni menos que la flota estandar
+    print(f"  - Longitud de cada barco: entre {LONGITUD_MIN_BARCO} y {LONGITUD_MAX_BARCO}") #las normas del tamaño de cada barco
+    print(f"  - Mínimo 1 barco") #al menos un barco 
 
     flota_custom = []
     celdas_usadas = 0
     numero_barco = 1
-
-    while celdas_usadas < CELDAS_FLOTA_ESTANDAR:
+    #comienza la creación de una flota personalizada
+    while celdas_usadas < CELDAS_FLOTA_ESTANDAR: #mientras no gastes todas las celdas:
         restantes = CELDAS_FLOTA_ESTANDAR - celdas_usadas
-        print(f"\n  Barco {numero_barco} — celdas restantes: {restantes}")
+        print(f"\n  Barco {numero_barco} — celdas restantes: {restantes}") #te avisa de cuantas quedan restantes
 
         # Longitud
         long_max = min(LONGITUD_MAX_BARCO, restantes)
-        while True:
+        correcto_longitud = False
+        while not correcto_longitud:
             try:
-                longitud = int(input(f"  Longitud ({LONGITUD_MIN_BARCO}-{long_max}): "))
+                longitud = int(input(f"  Longitud ({LONGITUD_MIN_BARCO}-{long_max}): "))  #te pide la longitud del barco y comprueba entre los valores
                 if LONGITUD_MIN_BARCO <= longitud <= long_max:
-                    break
+                    correcto_longitud = True
                 print(f"  Debe estar entre {LONGITUD_MIN_BARCO} y {long_max}.")
             except ValueError:
                 print("  Introduce un número.")
 
         # Cantidad
-        max_cantidad = restantes // longitud
-        while True:
+        max_cantidad = restantes // longitud #para que no te puedas pasar de largo
+        correcta_cantidad = False
+        while not correcta_cantidad:
             try:
-                cantidad = int(input(f"  Cantidad (1-{max_cantidad}): "))
+                cantidad = int(input(f"  Cantidad (1-{max_cantidad}): "))#te pide una cantidad de barcos del mismo tipo entre los valores válidos
                 if 1 <= cantidad <= max_cantidad:
-                    break
+                    correcta_cantidad = True
                 print(f"  Debe estar entre 1 y {max_cantidad}.")
             except ValueError:
                 print("  Introduce un número.")
 
-        nombre = input(f"  Nombre del barco [Barco {numero_barco}]: ").strip()
+        nombre = input(f"  Nombre del barco [Barco {numero_barco}]: ").strip() #puedes cambiar el nombre del barco, elegirlo más bien
         if not nombre:
             nombre = f"Barco {numero_barco}"
 
-        flota_custom.append({
+        flota_custom.append({ #juntas todos los barcos en una flota con sus carácteristicas
             "nombre": nombre,
             "longitud": longitud,
             "cantidad": cantidad
         })
-        celdas_usadas += longitud * cantidad
+        celdas_usadas += longitud * cantidad 
         numero_barco += 1
 
         if celdas_usadas == CELDAS_FLOTA_ESTANDAR:
             break
 
     print(f"\nFlota personalizada creada con {len(flota_custom)} tipo(s) de barco.")
-    return flota_custom
+    return flota_custom #devuelve plantillas para luego ser instancias en barcos.py
 
 
 def elegir_flota():
-    """Pregunta si usar la flota estándar o personalizar.
+    #Pregunta si usar la flota estándar o personalizar.
     
-    Returns:
-        list: Plantillas de barco a usar.
-    """
     print("\n¿Qué flota quieres usar?")
     print("  1. Flota estándar")
     print("  2. Personalizar flota")
-    while True:
+    elegido = False
+    while not elegido:
         try:
             opcion = int(input("Selecciona (1-2): "))
             if opcion == 1:
@@ -161,22 +152,20 @@ def elegir_flota():
 # ─── COLOCACIÓN DE FLOTA ──────────────────────────────────────────────────────
 
 def elegir_colocacion(tablero, plantillas):
-    """Pregunta al jugador si coloca la flota manual o automáticamente.
+    #Pregunta al jugador si coloca la flota manual o automáticamente.
     
-    Returns:
-        list: Flota activa (instancias colocadas).
-    """
     print("\n¿Cómo quieres colocar tu flota?")
     print("  1. Manual")
     print("  2. Automática")
-    while True:
+    decidido = False
+    while not decidido:
         try:
             opcion = int(input("Selecciona (1-2): "))
             if opcion == 1:
                 return colocar_flota_manual(
                     tablero, plantillas,
                     pedir_coordenadas, pedir_orientacion,
-                    lambda t: mostrar_tablero(t, ocultar_barcos=False)
+                    lambda t: mostrar_tablero(t, ocultar_barcos=False) #lambda deja usar una función 
                 )
             if opcion == 2:
                 return colocar_flota_aleatoria(tablero, plantillas)
@@ -261,7 +250,7 @@ def juego_vs_cpu():
             procesar_disparo_cpu(tablero_jugador, flota_jugador)
             if comprobar_fin(flota_jugador):
                 print("\n¡HAS PERDIDO! La CPU ha hundido tu flota.")
-                guardar_partida("CPU", "Jugador", turnos, "Jugador vs CPU")
+                guardar_partida("CPU", "Jugador", turnos, "Jugador vs CPU") 
                 break
 
         mostrar_estado(tablero_jugador, tablero_cpu)
