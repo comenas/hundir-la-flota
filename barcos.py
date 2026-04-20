@@ -1,16 +1,20 @@
 import random
 from Constantes import *
 from tablero import saber_coordenada_valida
+def funcion_auxiliar(orientacion,fila,columna,i):
+    if orientacion == "h": #si es orizontal en cada columna
+        fila_actual = fila
+        columna_actual = columna + i
+    else:
+        fila_actual = fila + i #si es vertical en cada fila
+        columna_actual = columna
+    return fila_actual,columna_actual
+    
 
 
 def saber_posicion_valida(tablero, fila, columna, longitud, orientacion): #función que comprueba si la posición es válida
     for i in range(longitud): #mira en cada columna o fila del barco según su longitud
-        if orientacion == "h": #si es orizontal en cada columna
-            fila_actual = fila
-            columna_actual = columna + i
-        else:
-            fila_actual = fila + i #si es vertical en cada fila
-            columna_actual = columna
+        fila_actual, columna_actual = funcion_auxiliar(orientacion,fila,columna,i) #para hacer el code DRY he creado la funcion auxiliar
         if not saber_coordenada_valida(tablero, fila_actual, columna_actual): #comprueba cada coordenada individualmente si está dentro del tablero
             return False
         if tablero[fila_actual][columna_actual] != AGUA: #comprueba que no esté ocupada
@@ -25,12 +29,7 @@ def colocar_barco(tablero, fila, columna, longitud, orientacion, barco):
         raise ValueError("Posición del barco no válida")
     barco["coordenadas"] = []
     for i in range(longitud): #coloca el barco según orientación misma lógica que la función anterior
-        if orientacion == "h":
-            fila_actual = fila
-            columna_actual = columna + i
-        else:
-            fila_actual = fila + i
-            columna_actual = columna
+        fila_actual, columna_actual = funcion_auxiliar(orientacion,fila,columna,i)
         tablero[fila_actual][columna_actual] = BARCO #sustituye agua por barco en cada coordenada
         barco["coordenadas"].append((fila_actual, columna_actual)) #guarda las coordenadas del barco en su diccionario
 
