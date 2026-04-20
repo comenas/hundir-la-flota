@@ -20,11 +20,11 @@ def mostrar_tablero(tablero, ocultar_barcos=False):
     numeros_coords = " "
     for i in range(1, columnas + 1):
         numeros_coords += str(i).rjust(2) + "   "
-    print("  " + numeros_coords, "\n")
+    print("  " + numeros_coords, "")
     for i in range(filas):
         letra = chr(65 + i)
         celdas = [AGUA if (c == BARCO and ocultar_barcos) else c for c in tablero[i]]
-        print(letra + "   " + "    ".join(celdas), "\n")
+        print(letra + "   " + "    ".join(celdas), "")
 
 def saber_coordenada_valida(tablero, fila, columna):
     return 0 <= fila < len(tablero) and 0 <= columna < len(tablero[0])
