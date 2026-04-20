@@ -23,4 +23,4 @@ def mostrar_ranking(): #muestra el ranking cuando se le pida
         print("No hay partidas guardadas")
         return
     for i, partida in enumerate(ranking, 1):
-        print(f"{i}. Ganador: {partida["ganador"]} | Turnos: {partida["turnos"]} | Modo:{partida["modo"]}")
+        print(f"{i}. Ganador: {partida['ganador']} | Turnos: {partida['turnos']} | Modo:{partida['modo']}")
