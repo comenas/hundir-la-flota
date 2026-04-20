@@ -2,12 +2,12 @@ from barcos import saber_coordenada_valida
 from Constantes import *
 def procesar_disparo(tablero,flota,fila,columna): #dispara el jugador a una coordenada
     barco = None
-    for b in flota:
-        if (fila, columna) in b["coordenadas"]:
-            barco = b
-            break
     if not saber_coordenada_valida(tablero, fila, columna): #si falla pues repites
         raise ValueError("Coordenada fuera del tablero")
+    for b in flota:
+        if (fila, columna) in b["coordenadas"]: #tiene que encontrar si hay algún barco en las coordenadas
+            barco = b
+            break
     coordenada = tablero[fila][columna] 
     if coordenada == ACIERTO or coordenada == FALLO: #si ya habias diparado ahí pues repites tambien
         raise ValueError("Ya se disparó aquí")
