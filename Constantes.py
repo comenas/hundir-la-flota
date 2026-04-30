@@ -20,6 +20,9 @@ FLOTA= [
     {"nombre": "Submarino",    "longitud": 3, "impactos": 0, "hundido": False, "cantidad": 1},
     {"nombre": "Patrullero",   "longitud": 2, "impactos": 0, "hundido": False, "cantidad": 1},
 ]
+CELDAS_FLOTA_ESTANDAR = sum(b["longitud"] * b["cantidad"] for b in FLOTA)
+LONGITUD_MIN_BARCO = 2
+LONGITUD_MAX_BARCO = 5
 #nombre = nombre del barco
 # longitud es el tamaño del barco
 #impactos es el número de impactos recibidos(para saber cuando hundirlo)
